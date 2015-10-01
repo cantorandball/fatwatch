@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title">Position</string>
+    <string name="xlabel">X axis</string>
+    <string name="ylabel">Y axis</string>
+    <string name="zlabel">Z axis</string>
+</resources>
