@@ -1,3 +1,12 @@
+/* Display accelerometer movement.
+ *
+ * Most of this code by Wiliam J. Francis
+ *
+ * Retrieved 01/10/2015 from
+ * www.techrepublic.com/blog/software-engineer/a-quick-tutorial-on-coding-androids-accelerometer
+ * 
+ * */
+
 package com.candb.josh.protochi;
 
 import android.app.Activity;
@@ -13,8 +22,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOError;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
