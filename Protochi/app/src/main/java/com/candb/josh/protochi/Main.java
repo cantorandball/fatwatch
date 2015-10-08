@@ -19,6 +19,7 @@ import android.hardware.SensorManager;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,12 +35,17 @@ public class Main extends Activity implements SensorEventListener{
     // Use NOISE to adjust sensitivity
     private final float NOISE = (float) 2.0;
 
+
+
     // Called when activity first initialised
     @Override
-
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        // Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.indicator);
+
+
 
         mInitialized = false;
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
