@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Protochi</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
     <!-- Counter -->
     <string name="counter_title">Distance moved</string>
+
+    <!-- Indicator -->
+    <string name="indicator_image_description">Axis indicator</string>
 
     <!-- For debugging -->
     <string name="hello_indicator_fragment">Indicator fragment</string>
