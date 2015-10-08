@@ -9,7 +9,6 @@
 
 package com.candb.josh.protochi;
 
-import android.app.Activity;
 import android.content.Context;
 
 import android.hardware.Sensor;
@@ -18,6 +17,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -27,119 +27,51 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Main extends Activity implements SensorEventListener{
-    private float mLastX, mLastY, mLastZ;
-    private boolean mInitialized;
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    // Use NOISE to adjust sensitivity
-    private final float NOISE = (float) 2.0;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
-
-
+public class Main extends FragmentActivity{
     // Called when activity first initialised
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         // Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.indicator);
+        setContentView(R.layout.activity_main);
 
+        // Start up a ViewPager, allowing us to view fragments on different pages.
+        ViewPager mainPager = (ViewPager) findViewById(R.id.main_view_pager);
+        mainPager.setAdapter(new WatchPagerAdapter(getSupportFragmentManager()));
 
-
-        mInitialized = false;
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    // Override some default activity lifecycle events
-    protected void onResume(){
-        super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
+    private class WatchPagerAdapter extends FragmentPagerAdapter{
 
-    protected void onPause() {
-        super.onPause();
-        mSensorManager.unregisterListener(this);
-    }
+        public WatchPagerAdapter(android.support.v4.app.FragmentManager fm) {
+            super(fm);
+        }
 
-    public void onAccuracyChanged(Sensor sensor, int accuracy){
-        // Nothing here at the moment
-    }
+        @Override
+        public Fragment getItem(int position) {
+            switch(position){
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        TextView tvX = (TextView)findViewById(R.id.xaxis);
-        TextView tvY = (TextView)findViewById(R.id.yaxis);
-        TextView tvZ = (TextView)findViewById(R.id.zaxis);
-        ImageView iv = (ImageView)findViewById(R.id.image);
-
-        float x = event.values[0];
-        float y = event.values[1];
-        float z = event.values[2];
-
-        float max = 0;
-        Collection<Float> deltas = new ArrayList<Float>();
-
-        // Initialise values for first call
-        if (!mInitialized) {
-            mLastX = x;
-            mLastY = y;
-            mLastZ = z;
-
-            tvX.setText("0.0");
-            tvY.setText("0.0");
-            tvZ.setText("0.0");
-
-            mInitialized = true;
-        } else {
-            // Calculate change in values
-            float deltaX = Math.abs(mLastX - x);
-            float deltaY = Math.abs(mLastY - y);
-            float deltaZ = Math.abs(mLastZ - z);
-
-            // If less than NOISE, set to 0
-            if (deltaX < NOISE) deltaX = (float) 0.0;
-            if (deltaY < NOISE) deltaY = (float) 0.0;
-            if (deltaZ < NOISE) deltaZ = (float) 0.0;
-
-            // Save current values as 'mLast'
-            mLastX = x;
-            mLastY = y;
-            mLastZ = z;
-
-            // Update text views
-            tvX.setText(Float.toString(deltaX));
-            tvY.setText(Float.toString(deltaY));
-            tvZ.setText(Float.toString(deltaZ));
-
-            // Calculate dominant value
-            deltas.clear();
-            deltas.add(deltaX);
-            deltas.add(deltaY);
-            deltas.add(deltaZ);
-            max = Collections.max(deltas);
-
-            // Set image to correct icon
-            iv.setVisibility(View.VISIBLE);
-
-            if (max == 0.0) {
-                iv.setVisibility(View.INVISIBLE);
-            } else if (max == deltaX) {
-                iv.setImageResource(R.drawable.xaxis);
-            } else if (max == deltaY) {
-                iv.setImageResource(R.drawable.yaxis);
-            } else if (max == deltaZ) {
-                iv.setImageResource(R.drawable.zaxis);
-            } else {
-                iv.setVisibility(View.INVISIBLE);
+                case 0: return IndicatorFragment.newInstance();
+                case 1: return CounterFragment.newInstance();
+                default: return IndicatorFragment.newInstance();
             }
+        }
+
+        @Override
+        public int getCount(){
+            return 2;
         }
     }
 }
+
+
 
 
 

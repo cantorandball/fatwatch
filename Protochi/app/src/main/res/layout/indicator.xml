@@ -65,4 +65,7 @@
         android:id="@+id/image"
         android:layout_gravity="center"
         android:visibility="invisible"/>
+
+    <include layout="@layout/fragment_counter"/>
+
 </LinearLayout>

@@ -7,4 +7,9 @@
     <!-- Counter -->
     <string name="counter_title">Distance moved</string>
 
+    <!-- For debugging -->
+    <string name="hello_indicator_fragment">Indicator fragment</string>
+    <string name="hello_counter_fragment">Counter fragment</string>
+
+
 </resources>
