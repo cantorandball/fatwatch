@@ -21,32 +21,21 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Adapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 
-public class Main extends FragmentActivity
-        implements SensorEventListener, IndicatorFragment.OnSensorChangeListener{
+public class Main extends FragmentActivity implements SensorEventListener{
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private final float NOISE = (float) 2.0;
     private int testCounter = 0;
     private ViewPager mainPager;
+    public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
+
 
     // Called when activity first initialised
     @Override
@@ -138,8 +127,6 @@ public class Main extends FragmentActivity
     }
 
     public void onSensorChanged(SensorEvent event){
-        testCounter += 1;
-
         // Get current fragment from the ViewPager adapter
         WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
         Fragment currentFragment = mainAdapter.getRegisteredFragment(mainPager.getCurrentItem());
@@ -147,10 +134,10 @@ public class Main extends FragmentActivity
         if (currentFragment != null) {
             if (currentFragment instanceof IndicatorFragment){
                 IndicatorFragment indFrag = (IndicatorFragment) currentFragment;
-                indFrag.counterTest(Integer.toString(testCounter));
+                indFrag.updateSensorIndicator(event, NOISE);
             }
         } else {
-            Log.e("BUTSON_GRAVVEL", "no indicator fund.");
+            Log.w(LOG_TAG, "No fragments exist");
         }
     }
 }

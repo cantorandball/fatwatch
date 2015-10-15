@@ -17,25 +17,6 @@ import java.util.Collections;
 
 public class IndicatorFragment extends Fragment{
 
-    OnSensorChangeListener mCallback;
-
-    public interface OnSensorChangeListener{
-    }
-
-    public void onAttach(Main activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnSensorChangeListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
-    }
-
-
     private float mLastX, mLastY, mLastZ;
     private boolean mInitialized;
 
@@ -60,11 +41,6 @@ public class IndicatorFragment extends Fragment{
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_indicator, container, false);
         return rootView;
-    }
-
-    public void counterTest(String intToShow){
-        TextView showMe = (TextView) getActivity().findViewById(R.id.xaxis);
-        showMe.setText(intToShow);
     }
 
     public void updateSensorIndicator(SensorEvent event, Float noise) {
@@ -135,8 +111,4 @@ public class IndicatorFragment extends Fragment{
             }
         }
     }
-
-
-
-
 }
