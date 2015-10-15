@@ -26,6 +26,7 @@ import android.view.Window;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.widget.TextView;
 
 public class Main extends FragmentActivity implements SensorEventListener{
 
@@ -127,14 +128,24 @@ public class Main extends FragmentActivity implements SensorEventListener{
     }
 
     public void onSensorChanged(SensorEvent event){
+        // TODO: Remove this test bit
+        testCounter += 1;
+
         // Get current fragment from the ViewPager adapter
         WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
         Fragment currentFragment = mainAdapter.getRegisteredFragment(mainPager.getCurrentItem());
 
         if (currentFragment != null) {
             if (currentFragment instanceof IndicatorFragment){
-                IndicatorFragment indFrag = (IndicatorFragment) currentFragment;
-                indFrag.updateSensorIndicator(event, NOISE);
+                Log.d(LOG_TAG, "Firing indication fragment");
+                IndicatorFragment indicatorFragment = (IndicatorFragment) currentFragment;
+                indicatorFragment.updateSensorIndicator(event, NOISE);
+            } else if (currentFragment instanceof CounterFragment){
+                Log.d(LOG_TAG, "Firing counter fragment");
+                CounterFragment counterFragment = (CounterFragment) currentFragment;
+                counterFragment.countTest(String.valueOf(testCounter));
+            } else {
+                Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }
         } else {
             Log.w(LOG_TAG, "No fragments exist");
