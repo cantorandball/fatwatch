@@ -1,10 +1,6 @@
 package com.candb.josh.protochi;
 
-import android.content.Context;
-import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,15 +15,29 @@ import java.util.Collection;
 import java.util.Collections;
 
 
-public class IndicatorFragment extends Fragment implements SensorEventListener{
+public class IndicatorFragment extends Fragment{
+
+    OnSensorChangeListener mCallback;
+
+    public interface OnSensorChangeListener{
+    }
+
+    public void onAttach(Main activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnSensorChangeListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
 
     private float mLastX, mLastY, mLastZ;
     private boolean mInitialized;
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    // Use NOISE to adjust sensitivity
-    private final float NOISE = (float) 2.0;
-
 
     public static IndicatorFragment newInstance() {
         IndicatorFragment fragment = new IndicatorFragment();
@@ -41,13 +51,7 @@ public class IndicatorFragment extends Fragment implements SensorEventListener{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         mInitialized = false;
-
-        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -58,27 +62,12 @@ public class IndicatorFragment extends Fragment implements SensorEventListener{
         return rootView;
     }
 
-    // Override some default activity lifecycle events
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
+    public void counterTest(String intToShow){
+        TextView showMe = (TextView) getActivity().findViewById(R.id.xaxis);
+        showMe.setText(intToShow);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mSensorManager.unregisterListener(this);
-    }
-
-    public void onAccuracyChanged(Sensor sensor, int accuracy){
-        // Nothing here at the moment
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void updateSensorIndicator(SensorEvent event, Float noise) {
         TextView tvX = (TextView) getActivity().findViewById(R.id.xaxis);
         TextView tvY = (TextView) getActivity().findViewById(R.id.yaxis);
         TextView tvZ = (TextView) getActivity().findViewById(R.id.zaxis);
@@ -109,9 +98,9 @@ public class IndicatorFragment extends Fragment implements SensorEventListener{
             float deltaZ = Math.abs(mLastZ - z);
 
             // If less than NOISE, set to 0
-            if (deltaX < NOISE) deltaX = (float) 0.0;
-            if (deltaY < NOISE) deltaY = (float) 0.0;
-            if (deltaZ < NOISE) deltaZ = (float) 0.0;
+            if (deltaX < noise) deltaX = (float) 0.0;
+            if (deltaY < noise) deltaY = (float) 0.0;
+            if (deltaZ < noise) deltaZ = (float) 0.0;
 
             // Save current values as 'mLast'
             mLastX = x;
