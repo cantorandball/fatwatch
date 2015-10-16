@@ -2,7 +2,8 @@
     <string name="app_name">Protochi</string>
 
     <!-- Counter -->
-    <string name="counter_title">Distance moved</string>
+    <string name="counter_speed_title">Speed</string>
+    <string name="counter_total_title">Sum</string>
 
     <!-- Indicator -->
     <string name="indicator_image_description">Axis indicator</string>

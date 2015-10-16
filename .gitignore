@@ -1,6 +1,9 @@
 # Ignore backup files
 *.bkup
 
+# Ignore demo videos
+*.mov
+
 # Built application files
 *.apk
 *.ap_

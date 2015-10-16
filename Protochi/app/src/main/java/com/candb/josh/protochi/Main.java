@@ -28,6 +28,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class Main extends FragmentActivity implements SensorEventListener{
 
     private SensorManager mSensorManager;
@@ -37,6 +39,12 @@ public class Main extends FragmentActivity implements SensorEventListener{
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
 
+    // For counting
+    private float mLastX;
+    private float mLastY;
+    private float mLastZ;
+    private boolean mInitialised = false;
+    private double movement = 0;
 
     // Called when activity first initialised
     @Override
@@ -121,6 +129,46 @@ public class Main extends FragmentActivity implements SensorEventListener{
 
     }
 
+    private double calculateAcceleration(SensorEvent event){
+        float currentX = event.values[0];
+        float currentY = event.values[1];
+        float currentZ = event.values[2];
+
+        //Initialise if not done already
+        if (!mInitialised){
+            mLastX = currentX;
+            mLastY = currentY;
+            mLastZ = currentZ;
+
+            mInitialised = true;
+        }
+
+        // TODO: Change IndicatorFragment to receive these values, so we're not
+        // calculating them twice
+        float deltaX = Math.abs(mLastX - currentX);
+        float deltaY = Math.abs(mLastY - currentY);
+        float deltaZ = Math.abs(mLastZ - currentZ);
+
+        if (deltaX < NOISE) deltaX = (float) 0.0;
+        if (deltaY < NOISE) deltaX = (float) 0.0;
+        if (deltaZ < NOISE) deltaZ = (float) 0.0;
+
+        mLastX = currentX;
+        mLastY = currentY;
+        mLastZ = currentZ;
+
+        double netAcceleration = Math.sqrt((deltaX * deltaX) +
+                                           (deltaY * deltaY) +
+                                           (deltaZ * deltaZ));
+        return netAcceleration;
+
+    }
+
+    private double twoDecimalPlaces(Double inDouble){
+        return Double.parseDouble(new DecimalFormat("#.##").format(inDouble));
+    }
+
+
     // Required sensor methods
     public void onAccuracyChanged(Sensor sensor, int accuracy){
         // Check for available fragments
@@ -128,8 +176,11 @@ public class Main extends FragmentActivity implements SensorEventListener{
     }
 
     public void onSensorChanged(SensorEvent event){
-        // TODO: Remove this test bit
-        testCounter += 1;
+        double accel = calculateAcceleration(event);
+        movement += accel;
+
+        String strMovement = String.valueOf(twoDecimalPlaces(movement));
+        String strAccel = String.valueOf(twoDecimalPlaces(accel));
 
         // Get current fragment from the ViewPager adapter
         WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
@@ -137,13 +188,11 @@ public class Main extends FragmentActivity implements SensorEventListener{
 
         if (currentFragment != null) {
             if (currentFragment instanceof IndicatorFragment){
-                Log.d(LOG_TAG, "Firing indication fragment");
                 IndicatorFragment indicatorFragment = (IndicatorFragment) currentFragment;
                 indicatorFragment.updateSensorIndicator(event, NOISE);
             } else if (currentFragment instanceof CounterFragment){
-                Log.d(LOG_TAG, "Firing counter fragment");
                 CounterFragment counterFragment = (CounterFragment) currentFragment;
-                counterFragment.countTest(String.valueOf(testCounter));
+                counterFragment.displayValues(strAccel, strMovement);
             } else {
                 Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }

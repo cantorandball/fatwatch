@@ -35,8 +35,11 @@ public class CounterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_counter, container, false);
     }
 
-    public void countTest(String intToShow){
-        TextView showMeAgain = (TextView) getActivity().findViewById(R.id.test_message);
-        showMeAgain.setText(intToShow);
+    public void displayValues(String speed, String sum){
+        TextView speedView = (TextView) getActivity().findViewById(R.id.counter_speed);
+        TextView sumView = (TextView) getActivity().findViewById(R.id.counter_total);
+
+        speedView.setText(speed);
+        sumView.setText(sum);
     }
 }
