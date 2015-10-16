@@ -34,7 +34,7 @@ public class Main extends FragmentActivity implements SensorEventListener{
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private final float NOISE = (float) 2.0;
+    private final float NOISE = (float) 10.0;
     private int testCounter = 0;
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
