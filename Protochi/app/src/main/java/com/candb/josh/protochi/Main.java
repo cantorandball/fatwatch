@@ -26,7 +26,6 @@ import android.view.Window;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
@@ -38,6 +37,9 @@ public class Main extends FragmentActivity implements SensorEventListener{
     private int testCounter = 0;
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
+
+    // If true, disable back button
+    public boolean LOCKED_DOWN = true;
 
     // For counting
     private float mLastX;
@@ -63,6 +65,14 @@ public class Main extends FragmentActivity implements SensorEventListener{
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    // Disable back button (to allow for kiosk mode)
+    @Override
+    public void onBackPressed(){
+        if (!LOCKED_DOWN) {
+            super.onBackPressed();
+        }
     }
 
  /* TODO: Work out how to use these lifecycle events
@@ -167,7 +177,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
     private double twoDecimalPlaces(Double inDouble){
         return Double.parseDouble(new DecimalFormat("#.##").format(inDouble));
     }
-
 
     // Required sensor methods
     public void onAccuracyChanged(Sensor sensor, int accuracy){
