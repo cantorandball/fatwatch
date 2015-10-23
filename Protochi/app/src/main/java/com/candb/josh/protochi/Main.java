@@ -27,8 +27,6 @@ import android.view.Window;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import java.text.DecimalFormat;
-
 public class Main extends FragmentActivity implements SensorEventListener{
 
     private SensorManager mSensorManager;
@@ -174,10 +172,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
 
     }
 
-    private double twoDecimalPlaces(Double inDouble){
-        return Double.parseDouble(new DecimalFormat("#.##").format(inDouble));
-    }
-
     // Required sensor methods
     public void onAccuracyChanged(Sensor sensor, int accuracy){
         // Check for available fragments
@@ -188,8 +182,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
         double accel = calculateAcceleration(event);
         movement += accel;
 
-        String strMovement = String.valueOf(twoDecimalPlaces(movement));
-        String strAccel = String.valueOf(twoDecimalPlaces(accel));
 
         // Get current fragment from the ViewPager adapter
         WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
@@ -201,7 +193,7 @@ public class Main extends FragmentActivity implements SensorEventListener{
                 indicatorFragment.updateSensorIndicator(event, NOISE);
             } else if (currentFragment instanceof CounterFragment){
                 CounterFragment counterFragment = (CounterFragment) currentFragment;
-                counterFragment.displayValues(strAccel, strMovement);
+                counterFragment.displayValues(accel, movement);
             } else {
                 Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }

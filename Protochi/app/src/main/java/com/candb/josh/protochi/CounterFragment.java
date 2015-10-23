@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class CounterFragment extends Fragment {
 
-    private boolean mInitialised;
+    public double currentMaxAccel = 0;
 
     public static CounterFragment newInstance() {
         CounterFragment fragment = new CounterFragment();
@@ -23,23 +25,33 @@ public class CounterFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        mInitialised = false;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_counter, container, false);
     }
 
-    public void displayValues(String speed, String sum){
-        TextView speedView = (TextView) getActivity().findViewById(R.id.counter_speed);
-        TextView sumView = (TextView) getActivity().findViewById(R.id.counter_total);
+    private double twoDecimalPlaces(Double inDouble){
+        return Double.parseDouble(new DecimalFormat("#.##").format(inDouble));
+    }
 
-        speedView.setText(speed);
-        sumView.setText(sum);
+    public void getHighestAccel(double newAccel){
+        currentMaxAccel = Math.max(newAccel, currentMaxAccel);
+    }
+
+    public void displayValues(double accel, double sum){
+        getHighestAccel(accel);
+
+        String strSum = String.valueOf(twoDecimalPlaces(sum));
+        String strAccel = String.valueOf(twoDecimalPlaces(accel));
+        String strMaxAccel = String.valueOf(twoDecimalPlaces(currentMaxAccel));
+
+        TextView sumView = (TextView) getActivity().findViewById(R.id.counter_total);
+        TextView accelView = (TextView) getActivity().findViewById(R.id.counter_accel);
+        TextView maxAccelView = (TextView) getActivity().findViewById(R.id.counter_max_accel);
+
+        sumView.setText(strSum);
+        accelView.setText(strAccel);
+        maxAccelView.setText(strMaxAccel);
     }
 }

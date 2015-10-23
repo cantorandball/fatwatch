@@ -4,6 +4,7 @@
     <!-- Counter -->
     <string name="counter_speed_title">Speed</string>
     <string name="counter_total_title">Sum</string>
+    <string name="counter_max_accel_title">Max</string>
 
     <!-- Indicator -->
     <string name="indicator_image_description">Axis indicator</string>

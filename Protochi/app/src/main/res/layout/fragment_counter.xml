@@ -20,22 +20,42 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:text="@string/counter_speed_title"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:id="@+id/counter_speed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="16sp"/>
-        </TableRow>
-        <TableRow>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:text="@string/counter_total_title"/>
+                android:text="@string/counter_max_accel_title"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/counter_accel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/counter_max_accel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"/>
+        </TableRow>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:stretchColumns="*">
+
+        <TableRow android:layout_width="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:text="@string/counter_total_title"
+                android:layout_gravity="center" />
         </TableRow>
 
         <TableRow>
@@ -46,9 +66,8 @@
                 android:gravity="center"
                 android:textSize="50sp"/>
         </TableRow>
-
-
-
     </TableLayout>
+
+
 </LinearLayout>
 
