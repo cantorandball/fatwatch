@@ -51,7 +51,7 @@ public class AccelColourFragment extends Fragment {
 
     private int getColour(double value){
         float[] HSBArray = new float[3];
-        double hue = value * 80; // 0.4 is the value for green
+        double hue = value * 100; // 0.4 is the value for green
         double saturation = 0.9;
         double brightness = 0.9;
 
