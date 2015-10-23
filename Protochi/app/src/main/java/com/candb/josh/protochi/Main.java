@@ -105,6 +105,8 @@ public class Main extends FragmentActivity implements SensorEventListener{
                     return IndicatorFragment.newInstance();
                 case 1:
                     return CounterFragment.newInstance();
+                case 2:
+                    return AccelColourFragment.newInstance();
                 default:
                     return IndicatorFragment.newInstance();
             }
@@ -112,7 +114,7 @@ public class Main extends FragmentActivity implements SensorEventListener{
 
         @Override
         public int getCount(){
-            return 2;
+            return 3;
         }
 
 
@@ -194,7 +196,10 @@ public class Main extends FragmentActivity implements SensorEventListener{
             } else if (currentFragment instanceof CounterFragment){
                 CounterFragment counterFragment = (CounterFragment) currentFragment;
                 counterFragment.displayValues(accel, movement);
-            } else {
+            } else if (currentFragment instanceof AccelColourFragment){
+                AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
+                accelColourFragment.setBackgroundColour();
+            } else{
                 Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }
         } else {

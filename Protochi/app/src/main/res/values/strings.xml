@@ -9,9 +9,8 @@
     <!-- Indicator -->
     <string name="indicator_image_description">Axis indicator</string>
 
-    <!-- For debugging -->
-    <string name="hello_indicator_fragment">Indicator fragment</string>
-    <string name="hello_counter_fragment">Counter fragment</string>
+    <!-- Accel colour -->
+    <string name="colour_text"></string>
 
 
 </resources>

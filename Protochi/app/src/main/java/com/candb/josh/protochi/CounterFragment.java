@@ -16,8 +16,7 @@ public class CounterFragment extends Fragment {
     public double currentMaxAccel = 0;
 
     public static CounterFragment newInstance() {
-        CounterFragment fragment = new CounterFragment();
-        return fragment;
+        return new CounterFragment();
     }
 
     public CounterFragment() {
