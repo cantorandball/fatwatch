@@ -9,12 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.ListIterator;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AccelColourFragment extends Fragment {
 
+    int eventsToAverage = 4;
+    ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);
 
     public AccelColourFragment() {
         // Required empty public constructor
@@ -31,7 +36,20 @@ public class AccelColourFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_accel_colour, container, false);
     }
 
-    public int getColour(double value){
+    private double averageLastNValues(double value, int n){
+        double sum = 0.0;
+        valuesArray.add(0,value); //Add value to the beginning of the array, incrementing all others
+        int currentSize = valuesArray.size();
+        if (currentSize == n){
+            valuesArray.remove(n-1);
+        }
+        for (Double v : valuesArray){
+            sum += v;
+        }
+        return sum / currentSize;
+    }
+
+    private int getColour(double value){
         float[] HSBArray = new float[3];
         double hue = value * 80; // 0.4 is the value for green
         double saturation = 0.9;
@@ -45,12 +63,12 @@ public class AccelColourFragment extends Fragment {
     }
 
     public void setBackgroundColour(double accel){
-        double maxAccel = 50.0;
-        double adjustedAccel = 1 - (Math.min(Math.abs(accel), maxAccel)/maxAccel);
+        double maxAccel = 25.0;
+        double smoothedAccel = averageLastNValues(accel, eventsToAverage);
+        double adjustedAccel = 1 - (Math.min(Math.abs(smoothedAccel), maxAccel)/maxAccel);
         int colourToSet = getColour(adjustedAccel);
 
         TextView accelFrame = (TextView) getActivity().findViewById(R.id.colour_square);
         accelFrame.setBackgroundColor(colourToSet);
-        accelFrame.setText(Double.toString(adjustedAccel));
     }
 }
