@@ -184,7 +184,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
         double accel = calculateAcceleration(event);
         movement += accel;
 
-
         // Get current fragment from the ViewPager adapter
         WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
         Fragment currentFragment = mainAdapter.getRegisteredFragment(mainPager.getCurrentItem());
@@ -198,7 +197,7 @@ public class Main extends FragmentActivity implements SensorEventListener{
                 counterFragment.displayValues(accel, movement);
             } else if (currentFragment instanceof AccelColourFragment){
                 AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
-                accelColourFragment.setBackgroundColour();
+                accelColourFragment.setBackgroundColour(accel);
             } else{
                 Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }

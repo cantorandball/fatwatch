@@ -10,7 +10,7 @@
     <string name="indicator_image_description">Axis indicator</string>
 
     <!-- Accel colour -->
-    <string name="colour_text"></string>
+    <string name="colour_text">BEGIN</string>
 
 
 </resources>

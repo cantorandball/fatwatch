@@ -7,8 +7,12 @@
 
     <TextView
         android:id="@+id/colour_square"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="@string/colour_text" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/colour_text"
+        android:textColor="#ffffff"
+        android:textAlignment="center"
+        android:textSize="24pt"
+        android:layout_gravity="center" />
 
 </FrameLayout>
