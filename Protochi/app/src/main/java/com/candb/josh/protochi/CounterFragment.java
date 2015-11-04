@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 
 public class CounterFragment extends GenericFragment {
 
+    public View mView;
     public double currentMaxAccel = 0;
 
     public static CounterFragment newInstance() {
@@ -25,7 +26,21 @@ public class CounterFragment extends GenericFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_counter, container, false);
+        mView = inflater.inflate(R.layout.fragment_counter, container, false);
+        return mView;
+    }
+
+    // Set up context menu
+    public void onResume(){
+        super.onResume();
+        registerForContextMenu(mView);
+    }
+
+    @Override
+    public void onPause()
+    {
+        unregisterForContextMenu(mView);
+        super.onPause();
     }
 
     private double twoDecimalPlaces(Double inDouble){

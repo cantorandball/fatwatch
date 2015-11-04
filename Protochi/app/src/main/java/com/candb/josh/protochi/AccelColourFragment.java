@@ -18,6 +18,8 @@ import java.util.ListIterator;
  */
 public class AccelColourFragment extends GenericFragment {
 
+    public View mView;
+
     int eventsToAverage = 4;
     ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);
 
@@ -33,7 +35,21 @@ public class AccelColourFragment extends GenericFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_accel_colour, container, false);
+        mView = inflater.inflate(R.layout.fragment_accel_colour, container, false);
+        return mView;
+    }
+
+    // Set up context menu
+    public void onResume(){
+        super.onResume();
+        registerForContextMenu(mView);
+    }
+
+    @Override
+    public void onPause()
+    {
+        unregisterForContextMenu(mView);
+        super.onPause();
     }
 
     private double averageLastNValues(double value, int n){
