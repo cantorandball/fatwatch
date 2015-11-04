@@ -68,22 +68,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
-
-        registerForContextMenu(mainPager);
-    }
-
-
-
-    //Sort out context menu on long view press
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu) | true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        return super.onOptionsItemSelected(item);
     }
 
     // Disable back button (to allow for kiosk mode)
@@ -92,17 +76,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
         if (!LOCKED_DOWN) {
             super.onBackPressed();
         }
-    }
-
-    // Make menu appear on long press
-
-    public void openMenu(View v) {
-        Context context = getApplicationContext();
-        CharSequence text = "briny";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
     }
 
  /* TODO: Work out how to use these lifecycle events
@@ -155,20 +128,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
             //When instantiateItem is called, add a fragment to our registeredFragments array
             Fragment newFragment = (Fragment) super.instantiateItem(container, position);
             registeredFragments.put(position, newFragment);
-
-            /*container.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "longy";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-
-                    return true;
-                }
-            });*/
             return newFragment;
         }
 
