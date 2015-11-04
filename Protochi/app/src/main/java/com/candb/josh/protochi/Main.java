@@ -21,11 +21,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 public class Main extends FragmentActivity implements SensorEventListener{
 
@@ -37,7 +39,7 @@ public class Main extends FragmentActivity implements SensorEventListener{
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
 
     // If true, disable back button
-    public boolean LOCKED_DOWN = true;
+    public boolean LOCKED_DOWN = false;
 
     // For counting
     private float mLastX;
@@ -71,6 +73,17 @@ public class Main extends FragmentActivity implements SensorEventListener{
         if (!LOCKED_DOWN) {
             super.onBackPressed();
         }
+    }
+
+    // Make menu appear on long press
+
+    public void openMenu(View v) {
+        Context context = getApplicationContext();
+        CharSequence text = "briny";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
  /* TODO: Work out how to use these lifecycle events
@@ -123,7 +136,25 @@ public class Main extends FragmentActivity implements SensorEventListener{
             //When instantiateItem is called, add a fragment to our registeredFragments array
             Fragment newFragment = (Fragment) super.instantiateItem(container, position);
             registeredFragments.put(position, newFragment);
+
+            container.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "longy";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    return true;
+                }
+            });
+
+
             return newFragment;
+
+
         }
 
         @Override
