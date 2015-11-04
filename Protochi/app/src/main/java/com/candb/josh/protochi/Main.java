@@ -21,16 +21,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 public class Main extends FragmentActivity implements SensorEventListener{
 
@@ -121,7 +116,6 @@ public class Main extends FragmentActivity implements SensorEventListener{
         public int getCount(){
             return 3;
         }
-
 
         @Override
         public Object instantiateItem(ViewGroup container, int position){

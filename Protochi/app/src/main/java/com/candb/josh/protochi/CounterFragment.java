@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
-public class CounterFragment extends Fragment {
+public class CounterFragment extends GenericFragment {
 
     public double currentMaxAccel = 0;
 

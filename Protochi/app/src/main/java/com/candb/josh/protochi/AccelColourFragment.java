@@ -16,7 +16,7 @@ import java.util.ListIterator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AccelColourFragment extends Fragment {
+public class AccelColourFragment extends GenericFragment {
 
     int eventsToAverage = 4;
     ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);

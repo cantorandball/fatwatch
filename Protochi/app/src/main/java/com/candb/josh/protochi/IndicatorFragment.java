@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 
-public class IndicatorFragment extends Fragment{
+public class IndicatorFragment extends GenericFragment{
 
     private View mView;
     private float mLastX, mLastY, mLastZ;
@@ -53,21 +53,6 @@ public class IndicatorFragment extends Fragment{
     public void onResume(){
         super.onResume();
         registerForContextMenu(mView);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item){
-        Toast.makeText(getActivity(),
-                "Budgie: " + item.getTitle() + ",",
-                Toast.LENGTH_SHORT).show();
-        return super.onContextItemSelected(item);
     }
 
     @Override
