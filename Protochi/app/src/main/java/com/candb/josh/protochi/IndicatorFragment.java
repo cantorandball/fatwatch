@@ -4,11 +4,16 @@ import android.hardware.SensorEvent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +22,7 @@ import java.util.Collections;
 
 public class IndicatorFragment extends Fragment{
 
+    private View mView;
     private float mLastX, mLastY, mLastZ;
     private boolean mInitialized;
 
@@ -32,6 +38,7 @@ public class IndicatorFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mInitialized = false;
     }
 
@@ -39,8 +46,36 @@ public class IndicatorFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_indicator, container, false);
-        return rootView;
+        mView = inflater.inflate(R.layout.fragment_indicator, container, false);
+        return mView;
+    }
+
+    // Set up context menu
+    public void onResume(){
+        super.onResume();
+        registerForContextMenu(mView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        Toast.makeText(getActivity(),
+                "Budgie: " + item.getTitle() + ",",
+                Toast.LENGTH_SHORT).show();
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onPause()
+    {
+        unregisterForContextMenu(mView);
+        super.onPause();
     }
 
     public void updateSensorIndicator(SensorEvent event, Float noise) {

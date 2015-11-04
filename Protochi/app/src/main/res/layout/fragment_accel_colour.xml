@@ -3,8 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="com.candb.josh.protochi.AccelColourFragment"
-    android:background="#234296"
-    android:onClick="openMenu">
+    android:background="#234296">
 
     <TextView
         android:id="@+id/colour_square"

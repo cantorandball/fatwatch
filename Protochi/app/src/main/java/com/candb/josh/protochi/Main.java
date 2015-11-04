@@ -21,6 +21,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -65,6 +68,22 @@ public class Main extends FragmentActivity implements SensorEventListener{
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
+
+        registerForContextMenu(mainPager);
+    }
+
+
+
+    //Sort out context menu on long view press
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu) | true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        return super.onOptionsItemSelected(item);
     }
 
     // Disable back button (to allow for kiosk mode)
@@ -137,7 +156,7 @@ public class Main extends FragmentActivity implements SensorEventListener{
             Fragment newFragment = (Fragment) super.instantiateItem(container, position);
             registeredFragments.put(position, newFragment);
 
-            container.setOnLongClickListener(new View.OnLongClickListener() {
+            /*container.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Context context = getApplicationContext();
@@ -149,12 +168,8 @@ public class Main extends FragmentActivity implements SensorEventListener{
 
                     return true;
                 }
-            });
-
-
+            });*/
             return newFragment;
-
-
         }
 
         @Override
