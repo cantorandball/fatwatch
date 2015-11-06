@@ -15,3 +15,21 @@ dev - Work in progress. Likely to be buggy, half-baked and held together with sp
  - Hit the green 'Play' button, and choose your running Android watch emulator. If this isn't running, you can launch one here.
  - That's it! With any luck, the C&B logo should slide coyly in from the right.
 
+
+## Connecting to an Android Wear device for the first time:
+ - Enable debugging on phone and watch
+ - Connect via Wear app on phone
+ - Plug phone into development machine
+ - Run these commands:
+
+   $ adb forward tcp:4444 localabstract:/adb-hub
+   $ adb connect localhost:4444
+   connected to localhost:4444
+
+*Authorise on watch, select 'Always for this computer'*
+
+To check:
+   $ adb devices
+   localhost:4444	device
+
+ - If you don't see 'connected to localhost:4444' then disconnect, reconnect, and try accepting debugging again. 
