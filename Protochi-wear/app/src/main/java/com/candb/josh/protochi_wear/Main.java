@@ -1,35 +1,30 @@
+/* Display accelerometer movement.
+ *
+ * Most of this code by Wiliam J. Francis
+ *
+ * Retrieved 01/10/2015 from
+ * www.techrepublic.com/blog/software-engineer/a-quick-tutorial-on-coding-androids-accelerometer
+ * 
+ * */
+
 package com.candb.josh.protochi_wear;
 
 import android.content.Context;
-
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
 import android.os.Bundle;
-import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.BoxInsetLayout;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.TextView;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-
+import android.util.Log;
 import android.util.SparseArray;
+import android.view.ViewGroup;
+import android.view.Window;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-public class Protochi_main extends FragmentActivity implements SensorEventListener {
-
+public class Main extends FragmentActivity implements SensorEventListener{
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -45,23 +40,13 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private boolean mInitialised = false;
     private double movement = 0;
 
-    private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
-            new SimpleDateFormat("HH:mm", Locale.UK);
-
-    private BoxInsetLayout mContainerView;
-    private TextView mTextView;
-    private TextView mClockView;
-
+    // Called when activity first initialised
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         // Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_protochi_main);
-
-        //Watch specific code
-        //setAmbientEnabled();
 
         // Start up a ViewPager, allowing us to view fragments on different pages.
         mainPager = (ViewPager) findViewById(R.id.main_view_pager);
@@ -72,27 +57,24 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
-
     }
 
-    /* Watch specific code. Need to find somewhere to put this
-    @Override
-    public void onEnterAmbient(Bundle ambientDetails) {
-        super.onEnterAmbient(ambientDetails);
-        updateDisplay();
-    }
+
+ /* TODO: Work out how to use these lifecycle events
 
     @Override
-    public void onUpdateAmbient() {
-        super.onUpdateAmbient();
-        updateDisplay();
+
+    public void onResume(){
+        super.onResume();
+        mSensorManager.registerListener(this, mAccelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
-    public void onExitAmbient() {
-        updateDisplay();
-        super.onExitAmbient();
-    } */
+    public void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }*/
 
     private class WatchPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -172,8 +154,8 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         mLastZ = currentZ;
 
         double netAcceleration = Math.sqrt((deltaX * deltaX) +
-                (deltaY * deltaY) +
-                (deltaZ * deltaZ));
+                                           (deltaY * deltaY) +
+                                           (deltaZ * deltaZ));
         return netAcceleration;
 
     }
@@ -184,7 +166,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
     }
 
-    public void onSensorChanged(SensorEvent event) {
+    public void onSensorChanged(SensorEvent event){
         double accel = calculateAcceleration(event);
         movement += accel;
 
@@ -193,27 +175,25 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         Fragment currentFragment = mainAdapter.getRegisteredFragment(mainPager.getCurrentItem());
 
         if (currentFragment != null) {
-            if (currentFragment instanceof IndicatorFragment) {
+            if (currentFragment instanceof IndicatorFragment){
                 IndicatorFragment indicatorFragment = (IndicatorFragment) currentFragment;
                 indicatorFragment.updateSensorIndicator(event, NOISE);
-            } else if (currentFragment instanceof CounterFragment) {
+            } else if (currentFragment instanceof CounterFragment){
                 CounterFragment counterFragment = (CounterFragment) currentFragment;
                 counterFragment.displayValues(accel, movement);
-            } else if (currentFragment instanceof AccelColourFragment) {
+            } else if (currentFragment instanceof AccelColourFragment){
                 AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
                 accelColourFragment.setBackgroundColour(accel);
-            } else {
+            } else{
                 Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }
         } else {
             Log.w(LOG_TAG, "No fragments exist");
         }
     }
-
-    /*
-    private void updateDisplay() {
-        if (isAmbient()) {
-            // Nothing
-        }
-    }*/
 }
+
+
+
+
+

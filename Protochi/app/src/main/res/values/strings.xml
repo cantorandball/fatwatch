@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Protochi</string>
+    <string name="app_name">Protochi-wear</string>
 
     <!-- Counter -->
     <string name="counter_speed_title">Speed</string>

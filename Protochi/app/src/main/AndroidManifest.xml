@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.candb.josh.protochi" >
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    // Disable back button (to allow for kiosk mode)
+    @Override
+    public void onBackPressed(){
+    if (!LOCKED_DOWN) {
+    super.onBackPressed();
+    }
+    }
 
     <application
         android:allowBackup="true"
