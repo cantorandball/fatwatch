@@ -24,17 +24,12 @@ import android.support.v4.view.ViewPager;
 
 import android.util.SparseArray;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class Protochi_main extends FragmentActivity implements SensorEventListener {
 
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private final float NOISE = (float) 10.0;
-    private int testCounter = 0;
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
 
@@ -44,13 +39,6 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private float mLastZ;
     private boolean mInitialised = false;
     private double movement = 0;
-
-    private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
-            new SimpleDateFormat("HH:mm", Locale.UK);
-
-    private BoxInsetLayout mContainerView;
-    private TextView mTextView;
-    private TextView mClockView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
