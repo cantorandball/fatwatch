@@ -58,9 +58,21 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         // Set up sensor event stuff
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
 
+    }
+
+    //Sensor lifecyle management
+    @Override
+    protected void onResume(){
+        super.onResume();
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 
     /* Watch specific code. Need to find somewhere to put this
