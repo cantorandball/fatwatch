@@ -12,6 +12,6 @@
     <!-- Accel colour -->
     <string name="colour_text"></string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Heartrate -->
+    <string name="hello_blank_fragment">Heart rate</string>
 </resources>

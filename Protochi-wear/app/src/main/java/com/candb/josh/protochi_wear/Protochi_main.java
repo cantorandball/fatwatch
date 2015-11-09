@@ -113,6 +113,8 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
                     return CounterFragment.newInstance();
                 case 2:
                     return AccelColourFragment.newInstance();
+                case 3:
+                    return HeartRateFragment.newInstance();
                 default:
                     return IndicatorFragment.newInstance();
             }
@@ -120,7 +122,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
         @Override
         public int getCount(){
-            return 3;
+            return 4;
         }
 
         @Override
@@ -187,22 +189,23 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
     public void onSensorChanged(SensorEvent event) {
         Sensor source = event.sensor;
+
+        // Get current fragment from the ViewPager adapter
+        WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
+        Fragment currentFragment = mainAdapter.getRegisteredFragment(mainPager.getCurrentItem());
+
         if (source.equals(mAccelerometer)){
-            accelSensorHandler(event);
+            accelSensorHandler(event, currentFragment);
         }else if (source.equals(mHeartRateSensor)){
-            Log.d(LOG_TAG, "Got a heart rate thang");
+            heartRateSensorHandler(event, currentFragment);
         }else{
             Log.e(LOG_TAG, "Whoa. No Idea what sensor that was.");
         }
     }
 
-    public void accelSensorHandler(SensorEvent event) {
+    public void accelSensorHandler(SensorEvent event, Fragment currentFragment) {
         double accel = calculateAcceleration(event);
         movement += accel;
-
-        // Get current fragment from the ViewPager adapter
-        WatchPagerAdapter mainAdapter = (WatchPagerAdapter) mainPager.getAdapter();
-        Fragment currentFragment = mainAdapter.getRegisteredFragment(mainPager.getCurrentItem());
 
         if (currentFragment != null) {
             if (currentFragment instanceof IndicatorFragment) {
@@ -214,12 +217,19 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
             } else if (currentFragment instanceof AccelColourFragment) {
                 AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
                 accelColourFragment.setBackgroundColour(accel);
-            } else {
-                Log.e(LOG_TAG, "Fragment of unknown instance type passed to adapter");
             }
         } else {
             Log.w(LOG_TAG, "No fragments exist");
         }
+    }
+
+    public void heartRateSensorHandler(SensorEvent event, Fragment currentFragment) {
+        if (currentFragment != null) {
+            if (currentFragment instanceof HeartRateFragment){
+                HeartRateFragment heartRateFragment = (HeartRateFragment) currentFragment;
+            }
+        }
+
     }
 
     /*
