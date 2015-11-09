@@ -9,13 +9,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import android.os.Bundle;
-import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.BoxInsetLayout;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -26,9 +22,11 @@ import android.util.SparseArray;
 
 public class Protochi_main extends FragmentActivity implements SensorEventListener {
 
-
+    // Set up sensors
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+    private Sensor mHeartRateSensor;
+
     private final float NOISE = (float) 10.0;
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
@@ -58,6 +56,8 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         // Set up sensor event stuff
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+
 
     }
 
@@ -66,6 +66,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     protected void onResume(){
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 
@@ -185,6 +186,17 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     }
 
     public void onSensorChanged(SensorEvent event) {
+        Sensor source = event.sensor;
+        if (source.equals(mAccelerometer)){
+            accelSensorHandler(event);
+        }else if (source.equals(mHeartRateSensor)){
+            Log.d(LOG_TAG, "Got a heart rate thang");
+        }else{
+            Log.e(LOG_TAG, "Whoa. No Idea what sensor that was.");
+        }
+    }
+
+    public void accelSensorHandler(SensorEvent event) {
         double accel = calculateAcceleration(event);
         movement += accel;
 
