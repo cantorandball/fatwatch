@@ -1,10 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.candb.josh.protochi_wear.HeartRateFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:stretchColumns="*">
+        <TableRow android:layout_width="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/heart_rate_title"
+                android:layout_gravity="center" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/heart_rate_now"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="50sp"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/no_of_heart_readings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="50sp"/>
+        </TableRow>
 
-</FrameLayout>
+    </TableLayout>
+</LinearLayout>

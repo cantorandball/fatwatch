@@ -42,7 +42,7 @@ public class CounterFragment extends GenericFragment {
         super.onPause();
     }
 
-    private double twoDecimalPlaces(Double inDouble){
+    public double twoDecimalPlaces(Double inDouble){
         return Double.parseDouble(new DecimalFormat("#.##").format(inDouble));
     }
 

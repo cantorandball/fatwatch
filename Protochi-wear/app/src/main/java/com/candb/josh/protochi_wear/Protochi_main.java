@@ -3,6 +3,7 @@ package com.candb.josh.protochi_wear;
 import android.content.Context;
 
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,6 +20,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.util.SparseArray;
+import android.view.WindowManager;
+
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Arrays;
 
 public class Protochi_main extends FragmentActivity implements SensorEventListener {
 
@@ -26,6 +32,9 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Sensor mHeartRateSensor;
+
+    // Set up Google Fit implementation
+    private GoogleFitConnector mGoogleFitConnector;
 
     private final float NOISE = (float) 10.0;
     private ViewPager mainPager;
@@ -49,6 +58,13 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         //Watch specific code
         //setAmbientEnabled();
 
+        // Keep screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        // Start Google Play API activity
+        Intent googleFitIntent = new Intent(this, GoogleFitConnector.class);
+        startActivity(googleFitIntent);
+
         // Start up a ViewPager, allowing us to view fragments on different pages.
         mainPager = (ViewPager) findViewById(R.id.main_view_pager);
         mainPager.setAdapter(new WatchPagerAdapter(getSupportFragmentManager()));
@@ -56,10 +72,10 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         // Set up sensor event stuff
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-
-
+        mHeartRateSensor = mSensorManager.getDefaultSensor(65538);
     }
+
+
 
     //Sensor lifecyle management
     @Override
@@ -69,6 +85,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
     }
+
 
     @Override
     protected void onPause(){
@@ -108,15 +125,15 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    return IndicatorFragment.newInstance();
+                    return HeartRateFragment.newInstance();
                 case 1:
                     return CounterFragment.newInstance();
                 case 2:
                     return AccelColourFragment.newInstance();
                 case 3:
-                    return HeartRateFragment.newInstance();
-                default:
                     return IndicatorFragment.newInstance();
+                default:
+                    return HeartRateFragment.newInstance();
             }
         }
 
@@ -197,6 +214,8 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         if (source.equals(mAccelerometer)){
             accelSensorHandler(event, currentFragment);
         }else if (source.equals(mHeartRateSensor)){
+            Log.i(LOG_TAG, "Heart rate received!");
+
             heartRateSensorHandler(event, currentFragment);
         }else{
             Log.e(LOG_TAG, "Whoa. No Idea what sensor that was.");
@@ -224,9 +243,12 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     }
 
     public void heartRateSensorHandler(SensorEvent event, Fragment currentFragment) {
+        float rate = event.values[2];
+        Log.i(LOG_TAG, Arrays.toString(event.values));
         if (currentFragment != null) {
             if (currentFragment instanceof HeartRateFragment){
                 HeartRateFragment heartRateFragment = (HeartRateFragment) currentFragment;
+                heartRateFragment.updateCurrentRate(rate);
             }
         }
 

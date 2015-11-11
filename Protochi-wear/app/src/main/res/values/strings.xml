@@ -13,5 +13,5 @@
     <string name="colour_text"></string>
 
     <!-- Heartrate -->
-    <string name="hello_blank_fragment">Heart rate</string>
+    <string name="heart_rate_title">Your heart rate</string>
 </resources>

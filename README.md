@@ -15,6 +15,8 @@ dev - Work in progress. Likely to be buggy, half-baked and held together with sp
  - Hit the green 'Play' button, and choose your running Android watch emulator. If this isn't running, you can launch one here.
  - That's it! With any luck, the C&B logo should slide coyly in from the right.
 
+## Required SDKs
+You will need the Android Wear SDK, as well as Google Play Services and the Google Repository (these latter 2 enable Google Fit integration, which is key for getting reading from the Moto360 heart rate sensor). These can all be downloaded from the SDK manager in Android Studio.
 
 ## Connecting to an Android Wear device for the first time:
  - Enable debugging on phone and watch
