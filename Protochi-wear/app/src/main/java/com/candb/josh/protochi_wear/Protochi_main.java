@@ -77,7 +77,6 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         // Set up sensor event stuff
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        //mHeartRateSensor = mSensorManager.getDefaultSensor(65538);
         mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
 
 
