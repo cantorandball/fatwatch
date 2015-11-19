@@ -39,7 +39,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     // Set up Google Fit implementation
     private GoogleFitConnector mGoogleFitConnector;
 
-    private final float NOISE = (float) 10.0;
+    private final float NOISE = (float) 20.0;
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
 
@@ -230,6 +230,10 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
     public void accelSensorHandler(SensorEvent event, Fragment currentFragment) {
         double accel = calculateAcceleration(event);
+        double accelThreshold = 0.5;
+        if (accel < accelThreshold){
+            accel = 0.0;
+        }
         movement += accel;
 
         if (currentFragment != null) {
