@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/reset"
-        android:title="refreshing"
+        android:title="@string/main_menu_reset"
         />
 
 

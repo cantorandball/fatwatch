@@ -224,7 +224,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
             heartRateSensorHandler(event, currentFragment);
         }else{
-            Log.e(LOG_TAG, "Whoa. No Idea what sensor that was.");
+            Log.e(LOG_TAG, "Whoa. No idea what sensor that was.");
         }
     }
 
@@ -234,7 +234,6 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         if (accel < accelThreshold){
             accel = 0.0;
         }
-        movement += accel;
 
         if (currentFragment != null) {
             if (currentFragment instanceof IndicatorFragment) {
@@ -242,7 +241,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
                 indicatorFragment.updateSensorIndicator(event, NOISE);
             } else if (currentFragment instanceof CounterFragment) {
                 CounterFragment counterFragment = (CounterFragment) currentFragment;
-                counterFragment.displayValues(accel, movement);
+                counterFragment.displayValues(accel);
             } else if (currentFragment instanceof AccelColourFragment) {
                 AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
                 accelColourFragment.setBackgroundColour(accel);
@@ -263,11 +262,4 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         }
 
     }
-
-    /*
-    private void updateDisplay() {
-        if (isAmbient()) {
-            // Nothing
-        }
-    }*/
 }

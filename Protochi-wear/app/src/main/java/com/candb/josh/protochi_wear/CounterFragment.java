@@ -12,6 +12,7 @@ public class CounterFragment extends GenericFragment {
 
     public View mView;
     public double currentMaxAccel = 0;
+    private double sumMovement = 0.0;
 
     public static CounterFragment newInstance() {
         return new CounterFragment();
@@ -42,6 +43,12 @@ public class CounterFragment extends GenericFragment {
         super.onPause();
     }
 
+    @Override
+    public void resetValues(){
+        sumMovement = 0.0;
+        super.resetValues();
+    }
+
     public double twoDecimalPlaces(Double inDouble){
         return Double.parseDouble(new DecimalFormat("#.##").format(inDouble));
     }
@@ -50,10 +57,11 @@ public class CounterFragment extends GenericFragment {
         currentMaxAccel = Math.max(newAccel, currentMaxAccel);
     }
 
-    public void displayValues(double accel, double sum){
+    public void displayValues(double accel){
+        sumMovement += accel;
         getHighestAccel(accel);
 
-        String strSum = String.valueOf(twoDecimalPlaces(sum));
+        String strSum = String.valueOf(twoDecimalPlaces(sumMovement));
         String strAccel = String.valueOf(twoDecimalPlaces(accel));
         String strMaxAccel = String.valueOf(twoDecimalPlaces(currentMaxAccel));
 

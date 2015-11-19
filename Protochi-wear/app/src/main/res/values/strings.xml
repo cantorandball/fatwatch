@@ -17,4 +17,7 @@
     <string name="heart_rate_init_value">-</string>
     <string name="heart_readings_title">No.of readings</string>
     <string name="heart_readings_init_value">0</string>
+
+    <!-- Main menu -->
+    <string name="main_menu_reset">Reset all data</string>
 </resources>
