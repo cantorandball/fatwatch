@@ -15,7 +15,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:text="@string/heart_rate_title"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:paddingTop="20dp"/>
         </TableRow>
         <TableRow>
             <TextView
