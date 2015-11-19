@@ -14,4 +14,7 @@
 
     <!-- Heartrate -->
     <string name="heart_rate_title">Your heart rate</string>
+    <string name="heart_rate_init_value">-</string>
+    <string name="heart_readings_title">No.of readings</string>
+    <string name="heart_readings_init_value">0</string>
 </resources>
