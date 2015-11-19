@@ -1,15 +1,18 @@
 package com.candb.josh.protochi_wear;
 
+import android.content.ComponentName;
 import android.content.Context;
 
 
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -61,9 +64,9 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         // Keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // Start Google Play API activity
+        /* Start Google Play API activity
         Intent googleFitIntent = new Intent(this, GoogleFitConnector.class);
-        startActivity(googleFitIntent);
+        startActivity(googleFitIntent);*/
 
         // Start up a ViewPager, allowing us to view fragments on different pages.
         mainPager = (ViewPager) findViewById(R.id.main_view_pager);
@@ -84,6 +87,9 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+        // Start message listening service
+        Intent listenerIntent = new Intent(this, ListenerService.class);
+        startService(listenerIntent);
     }
 
 
