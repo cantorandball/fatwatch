@@ -24,17 +24,19 @@ import android.support.v4.view.ViewPager;
 
 import android.util.SparseArray;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Arrays;
 
-public class Protochi_main extends FragmentActivity implements SensorEventListener {
+public class Protochi_main extends FragmentActivity implements SensorEventListener,
+        GenericFragment.MyFragmentCallback {
 
     // Set up sensors
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private Sensor mHeartRateSensor;
+    public Sensor mHeartRateSensor;
 
     // Set up Google Fit implementation
     private GoogleFitConnector mGoogleFitConnector;
@@ -117,6 +119,12 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         updateDisplay();
         super.onExitAmbient();
     } */
+
+    public void activityMethod(){
+        Toast.makeText(this,
+                "You did it!",
+                Toast.LENGTH_SHORT).show();
+    }
 
     private class WatchPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -207,7 +215,6 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     // Required sensor methods
     public void onAccuracyChanged(Sensor sensor, int accuracy){
         // Check for available fragments
-
     }
 
     public void onSensorChanged(SensorEvent event) {
