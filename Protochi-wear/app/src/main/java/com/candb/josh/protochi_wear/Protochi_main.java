@@ -77,7 +77,14 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         // Set up sensor event stuff
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mHeartRateSensor = mSensorManager.getDefaultSensor(65538);
+        //mHeartRateSensor = mSensorManager.getDefaultSensor(65538);
+        mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+
+
+        List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+        for (Sensor sensor1 : sensors) {
+            Log.i(LOG_TAG, sensor1.getName() + ": " + sensor1.getType());
+        }
     }
 
 
@@ -120,10 +127,9 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         super.onExitAmbient();
     } */
 
-    public void activityMethod(){
-        Toast.makeText(this,
-                "You did it!",
-                Toast.LENGTH_SHORT).show();
+    public void readHeartRate(){
+        mSensorManager.unregisterListener(this, mHeartRateSensor);
+        mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private class WatchPagerAdapter extends FragmentStatePagerAdapter {
@@ -259,7 +265,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     }
 
     public void heartRateSensorHandler(SensorEvent event, Fragment currentFragment) {
-        float rate = event.values[2];
+        float rate = event.values[0];
         Log.i(LOG_TAG, Arrays.toString(event.values));
         if (currentFragment != null) {
             if (currentFragment instanceof HeartRateFragment){

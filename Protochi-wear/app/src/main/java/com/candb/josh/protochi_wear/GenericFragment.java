@@ -21,7 +21,7 @@ public class GenericFragment extends Fragment {
 
     // Interface with main activity
     public interface MyFragmentCallback{
-        public void activityMethod();
+        public void readHeartRate();
     }
 
     private MyFragmentCallback callback;
@@ -48,7 +48,7 @@ public class GenericFragment extends Fragment {
         if (title.equals(resetTitle)){
             resetValues();
         }else if(title.equals(readHeartTitle)){
-            readHeartRate();
+            callback.readHeartRate();
         }else{
             Toast.makeText(getActivity(),
                     "I don't know what to do when you press: " + item.getTitle() + ",",
@@ -59,9 +59,6 @@ public class GenericFragment extends Fragment {
 
     // These methods are overridden in individual fragments, thus empty here.
     public void resetValues(){
-    }
-    public void readHeartRate(){
-        callback.activityMethod();
     }
 
 }
