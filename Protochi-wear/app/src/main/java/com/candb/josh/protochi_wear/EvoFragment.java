@@ -92,4 +92,13 @@ public class EvoFragment extends GenericFragment {
         }
         updateChiAvatar();
     }
+
+    @Override
+    public void resetValues(){
+        super.resetValues();
+        lastKnownMovementValue = 0.0;
+        chiStage = 1;
+        movementThisLevel = 0.0;
+        updateChiAvatar();
+    }
 }
