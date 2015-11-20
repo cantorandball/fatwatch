@@ -3,6 +3,7 @@ package com.candb.josh.protochi_wear;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class EvoFragment extends GenericFragment {
     private double movementThisLevel = 0.0;
     private double lastKnownMovementValue = 0.0;
     private View mView;
+
+    private String LOG_TAG = "PROTOCHI_EVO_FRAGMENT";
 
     public EvoFragment() {
         // Required empty public constructor
@@ -65,7 +68,6 @@ public class EvoFragment extends GenericFragment {
         if (movementDelta > 0){
            movementThisLevel += movementDelta;
         }
-
         if ( movementThisLevel < thresholdForStage){
             animateChi(accel);
         }else{

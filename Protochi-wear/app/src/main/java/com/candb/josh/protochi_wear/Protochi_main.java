@@ -261,6 +261,9 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
             } else if (currentFragment instanceof AccelColourFragment) {
                 AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
                 accelColourFragment.setBackgroundColour(accel);
+            } else if (currentFragment instanceof EvoFragment) {
+                EvoFragment evoFragment = (EvoFragment) currentFragment;
+                evoFragment.evoReact(accel, movement);
             }
         } else {
             Log.w(LOG_TAG, "No fragments exist");
