@@ -3,12 +3,20 @@
     android:layout_height="match_parent" tools:context="com.candb.josh.protochi_wear.EvoFragment"
     android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:id="@+id/chi_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/stage1_glum"/>
 
+<!-- Needs more care in implementation
+    <ProgressBar
+        android:id="@+id/timer_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:indeterminate="false"
+        android:max="60"
+        android:progressDrawable="@drawable/progress_circle" /> -->
 
 </FrameLayout>
