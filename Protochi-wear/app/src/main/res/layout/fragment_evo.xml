@@ -1,9 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.candb.josh.protochi_wear.EvoFragment">
+    android:layout_height="match_parent" tools:context="com.candb.josh.protochi_wear.EvoFragment"
+    android:background="@color/white">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="BUN BUN BUN BUN BUN BUN YES EYSE EYES RUGGLE BAG THANG PUFFLE" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/stage1_glum"/>
+
 
 </FrameLayout>
