@@ -144,21 +144,23 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    return HeartRateFragment.newInstance();
+                    return EvoFragment.newInstance();
                 case 1:
                     return CounterFragment.newInstance();
                 case 2:
                     return AccelColourFragment.newInstance();
                 case 3:
                     return IndicatorFragment.newInstance();
-                default:
+                case 4:
                     return HeartRateFragment.newInstance();
+                default:
+                    return EvoFragment.newInstance();
             }
         }
 
         @Override
         public int getCount(){
-            return 4;
+            return 5;
         }
 
         @Override
