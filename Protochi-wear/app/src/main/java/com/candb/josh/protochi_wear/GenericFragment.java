@@ -20,14 +20,15 @@ public class GenericFragment extends Fragment {
     }
 
     // Interface with main activity
-    public interface MyFragmentCallback{
-        public void readHeartRate();
+    public interface FragmentCallback{
+        void readHeartRate();
+        void resetMovement();
     }
 
-    private MyFragmentCallback callback;
+    private FragmentCallback activityCallback;
 
     public void onAttach(Activity activity){
-        callback = (MyFragmentCallback) activity;
+        activityCallback = (FragmentCallback) activity;
         super.onAttach(activity);
     }
 
@@ -48,7 +49,7 @@ public class GenericFragment extends Fragment {
         if (title.equals(resetTitle)){
             resetValues();
         }else if(title.equals(readHeartTitle)){
-            callback.readHeartRate();
+            activityCallback.readHeartRate();
         }else{
             Toast.makeText(getActivity(),
                     "I don't know what to do when you press: " + item.getTitle() + ",",
@@ -57,8 +58,7 @@ public class GenericFragment extends Fragment {
         return super.onContextItemSelected(item);
     }
 
-    // These methods are overridden in individual fragments, thus empty here.
     public void resetValues(){
+        activityCallback.resetMovement();
     }
-
 }

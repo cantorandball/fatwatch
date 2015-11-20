@@ -1,17 +1,12 @@
 package com.candb.josh.protochi_wear;
 
 
-import android.hardware.Sensor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.text.DecimalFormat;
 
 public class HeartRateFragment extends GenericFragment {
 

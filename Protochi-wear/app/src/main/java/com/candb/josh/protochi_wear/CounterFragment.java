@@ -57,8 +57,7 @@ public class CounterFragment extends GenericFragment {
         currentMaxAccel = Math.max(newAccel, currentMaxAccel);
     }
 
-    public void displayValues(double accel){
-        sumMovement += accel;
+    public void displayValues(double accel, double sumMovement){
         getHighestAccel(accel);
 
         String strSum = String.valueOf(twoDecimalPlaces(sumMovement));

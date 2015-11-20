@@ -1,18 +1,15 @@
 package com.candb.josh.protochi_wear;
 
-import android.content.ComponentName;
 import android.content.Context;
 
 
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,14 +21,12 @@ import android.support.v4.view.ViewPager;
 
 import android.util.SparseArray;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Arrays;
 
 public class Protochi_main extends FragmentActivity implements SensorEventListener,
-        GenericFragment.MyFragmentCallback {
+        GenericFragment.FragmentCallback {
 
     // Set up sensors
     private SensorManager mSensorManager;
@@ -126,9 +121,14 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         super.onExitAmbient();
     } */
 
+    // Fragment interface methods
     public void readHeartRate(){
         mSensorManager.unregisterListener(this, mHeartRateSensor);
         mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    public void resetMovement(){
+        movement = 0;
     }
 
     private class WatchPagerAdapter extends FragmentStatePagerAdapter {
@@ -248,6 +248,8 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         if (accel < accelThreshold){
             accel = 0.0;
         }
+        movement += accel;
+
 
         if (currentFragment != null) {
             if (currentFragment instanceof IndicatorFragment) {
@@ -255,7 +257,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
                 indicatorFragment.updateSensorIndicator(event, NOISE);
             } else if (currentFragment instanceof CounterFragment) {
                 CounterFragment counterFragment = (CounterFragment) currentFragment;
-                counterFragment.displayValues(accel);
+                counterFragment.displayValues(accel, movement);
             } else if (currentFragment instanceof AccelColourFragment) {
                 AccelColourFragment accelColourFragment = (AccelColourFragment) currentFragment;
                 accelColourFragment.setBackgroundColour(accel);

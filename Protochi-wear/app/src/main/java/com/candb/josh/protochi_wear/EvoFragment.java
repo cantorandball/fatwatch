@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 /**
@@ -13,6 +14,15 @@ import android.view.ViewGroup;
  */
 public class EvoFragment extends GenericFragment {
 
+    private int chiStage = 1;
+    private final int chiTotalStages = 6;
+
+    private double movementTotal = 0.0;
+    private final int levelThreshold = 1000;
+    private int activityLevel = 1;
+
+    private double movementThisLevel = 0.0;
+    private double lastKnownMovementValue = 0.0;
     private View mView;
 
     public EvoFragment() {
@@ -44,5 +54,40 @@ public class EvoFragment extends GenericFragment {
         super.onPause();
     }
 
+    // Given some accel data, this function prompt the correct reaction
+    public void evoReact(double accel, double movement){
 
+        // Update last known value, and get change
+        double movementDelta = movement - lastKnownMovementValue;
+        int thresholdForStage = levelThreshold * chiStage;
+
+        lastKnownMovementValue = movement;
+        if (movementDelta > 0){
+           movementThisLevel += movementDelta;
+        }
+
+        if ( movementThisLevel < thresholdForStage){
+            animateChi(accel);
+        }else{
+            movementThisLevel -= thresholdForStage;
+            evolveChi();
+        }
+    }
+
+    public void updateChiAvatar(){
+        ImageView chiAvatar = (ImageView) getActivity().findViewById(R.id.chi_avatar);
+        String drawableName = "stage" + Integer.toString(chiStage) + "_beam";
+        int imageId = getResources().getIdentifier(drawableName, "drawable", "com.candb.josh.protochi_wear");
+        chiAvatar.setImageResource(imageId);
+    }
+
+    public void animateChi(double accel){
+    }
+
+    public void evolveChi(){
+        if ( chiStage < chiTotalStages) {
+            chiStage += 1;
+        }
+        updateChiAvatar();
+    }
 }
