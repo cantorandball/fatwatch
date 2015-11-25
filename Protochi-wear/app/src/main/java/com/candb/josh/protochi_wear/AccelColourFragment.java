@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -51,19 +50,6 @@ public class AccelColourFragment extends GenericFragment {
         super.onPause();
     }
 
-    private double averageLastNValues(double value, int n){
-        double sum = 0.0;
-        valuesArray.add(0,value); //Add value to the beginning of the array, incrementing all others
-        int currentSize = valuesArray.size();
-        if (currentSize == n){
-            valuesArray.remove(n-1);
-        }
-        for (Double v : valuesArray){
-            sum += v;
-        }
-        return sum / currentSize;
-    }
-
     private int getColour(double value){
         float[] HSBArray = new float[3];
         double hue = value * 100; // 0.4 is the value for green
@@ -79,7 +65,7 @@ public class AccelColourFragment extends GenericFragment {
 
     public void setBackgroundColour(double accel){
         double maxAccel = 25.0;
-        double smoothedAccel = averageLastNValues(accel, eventsToAverage);
+        double smoothedAccel = averageLastNValues(accel, eventsToAverage, valuesArray);
         double adjustedAccel = 1 - (Math.min(Math.abs(smoothedAccel), maxAccel)/maxAccel);
         int colourToSet = getColour(adjustedAccel);
 

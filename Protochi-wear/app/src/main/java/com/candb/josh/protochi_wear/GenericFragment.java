@@ -9,11 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class GenericFragment extends Fragment {
 
+    //public int eventsToAverage = 5;
+    //ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);
 
     public GenericFragment() {
         // Required empty public constructor
@@ -61,4 +65,20 @@ public class GenericFragment extends Fragment {
     public void resetValues(){
         activityCallback.resetMovement();
     }
+
+    // Some generally useful functions
+
+    public double averageLastNValues(double value, int n, ArrayList<Double> valuesArray){
+        double sum = 0.0;
+        valuesArray.add(0,value); //Add value to the beginning of the array, incrementing all others
+        int currentSize = valuesArray.size();
+        if (currentSize == n){
+            valuesArray.remove(n-1);
+        }
+        for (Double v : valuesArray){
+            sum += v;
+        }
+        return sum / currentSize;
+    }
+
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +29,9 @@ public class EvoFragment extends GenericFragment {
     private View mView;
 
     private String LOG_TAG = "PROTOCHI_EVO_FRAGMENT";
+
+    int eventsToAverage = 10;
+    ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);
 
     public EvoFragment() {
         // Required empty public constructor
@@ -51,11 +56,14 @@ public class EvoFragment extends GenericFragment {
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause(){
         unregisterForContextMenu(mView);
         super.onPause();
     }
+
+    // Given an acceleration,
+//    public String getEmotion(){
+//    }
 
     // Given some accel data, this function prompt the correct reaction
     public void evoReact(double accel, double movement){
