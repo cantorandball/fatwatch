@@ -30,7 +30,7 @@ public class EvoFragment extends GenericFragment {
 
     private String LOG_TAG = "PROTOCHI_EVO_FRAGMENT";
 
-    int eventsToAverage = 10;
+    int eventsToAverage = 20;
     ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);
 
     public EvoFragment() {
@@ -61,9 +61,21 @@ public class EvoFragment extends GenericFragment {
         super.onPause();
     }
 
-    // Given an acceleration,
-//    public String getEmotion(){
-//    }
+    // Given an acceleration, return an 'emotion' string, used to
+    // animate the chi
+    public String getExpression(double accel){
+        String expression = "smirk";
+        if (accel <= 0){
+            expression = "glum";
+        } else if (accel > 0 && accel <= 10) {
+            expression = "smirk";
+        } else if (accel > 10 && accel <= 20) {
+            expression = "smile";
+        } else {
+            expression = "beam";
+        }
+        return expression;
+    }
 
     // Given some accel data, this function prompt the correct reaction
     public void evoReact(double accel, double movement){
@@ -84,21 +96,24 @@ public class EvoFragment extends GenericFragment {
         }
     }
 
-    public void updateChiAvatar(){
+    public void updateChiAvatar(int stage, String expression){
         ImageView chiAvatar = (ImageView) getActivity().findViewById(R.id.chi_avatar);
-        String drawableName = "stage" + Integer.toString(chiStage) + "_beam";
+        String drawableName = "stage" + Integer.toString(stage) + "_" + expression;
         int imageId = getResources().getIdentifier(drawableName, "drawable", "com.candb.josh.protochi_wear");
         chiAvatar.setImageResource(imageId);
     }
 
     public void animateChi(double accel){
+        double averageValue = averageLastNValues(accel, eventsToAverage, valuesArray);
+        String expression = getExpression(averageValue);
+        updateChiAvatar(chiStage, expression);
     }
 
     public void evolveChi(){
         if ( chiStage < chiTotalStages) {
             chiStage += 1;
         }
-        updateChiAvatar();
+        updateChiAvatar(chiStage, "smirk");
     }
 
     @Override
@@ -107,6 +122,6 @@ public class EvoFragment extends GenericFragment {
         lastKnownMovementValue = 0.0;
         chiStage = 1;
         movementThisLevel = 0.0;
-        updateChiAvatar();
+        updateChiAvatar(chiStage, "smirk");
     }
 }
