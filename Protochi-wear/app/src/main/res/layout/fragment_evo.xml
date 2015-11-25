@@ -9,14 +9,13 @@
         android:layout_height="match_parent"
         android:src="@drawable/stage1_glum"/>
 
-<!-- Needs more care in implementation
     <ProgressBar
-        android:id="@+id/timer_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:indeterminate="false"
-        android:max="60"
-        android:progressDrawable="@drawable/progress_circle" /> -->
+        android:id="@+id/evo_progress"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="158dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        />
+
 
 </FrameLayout>

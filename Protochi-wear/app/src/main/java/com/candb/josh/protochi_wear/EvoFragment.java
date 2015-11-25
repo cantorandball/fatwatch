@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -20,9 +21,7 @@ public class EvoFragment extends GenericFragment {
     private int chiStage = 1;
     private final int chiTotalStages = 6;
 
-    private double movementTotal = 0.0;
     private final int levelThreshold = 1000;
-    private int activityLevel = 1;
 
     private double movementThisLevel = 0.0;
     private double lastKnownMovementValue = 0.0;
@@ -32,6 +31,10 @@ public class EvoFragment extends GenericFragment {
 
     int eventsToAverage = 20;
     ArrayList<Double> valuesArray = new ArrayList<Double>(eventsToAverage);
+
+    // Implement progress bar
+    private ProgressBar mProgressBar;
+    private double mProgressStatus = 0.0;
 
     public EvoFragment() {
         // Required empty public constructor
@@ -46,6 +49,8 @@ public class EvoFragment extends GenericFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_evo, container, false);
+        mProgressBar = (ProgressBar) mView.findViewById(R.id.evo_progress);
+
         return mView;
     }
 
@@ -77,23 +82,33 @@ public class EvoFragment extends GenericFragment {
         return expression;
     }
 
-    // Given some accel data, this function prompt the correct reaction
+    // Given some accel data, this function prompts the correct reaction
     public void evoReact(double accel, double movement){
 
         // Update last known value, and get change
         double movementDelta = movement - lastKnownMovementValue;
         int thresholdForStage = levelThreshold * chiStage;
 
+        // If movement has taken place, update the value
         lastKnownMovementValue = movement;
         if (movementDelta > 0){
            movementThisLevel += movementDelta;
         }
-        if ( movementThisLevel < thresholdForStage){
+
+        // Either animate or evolve the Chi, depending on how far you've moved.
+        if (movementThisLevel < thresholdForStage){
             animateChi(accel);
+            // Update progress bar
+            double progress = (movementThisLevel / thresholdForStage) * 100;
+            int progressInt = (int) progress;
+            Log.i(LOG_TAG, "Setting progress to " + Integer.toString(progressInt));
+            mProgressBar.setProgress(progressInt);
+
         }else{
             movementThisLevel -= thresholdForStage;
             evolveChi();
         }
+
     }
 
     public void updateChiAvatar(int stage, String expression){
@@ -114,6 +129,7 @@ public class EvoFragment extends GenericFragment {
             chiStage += 1;
         }
         updateChiAvatar(chiStage, "smirk");
+        mProgressBar.setProgress(0);
     }
 
     @Override

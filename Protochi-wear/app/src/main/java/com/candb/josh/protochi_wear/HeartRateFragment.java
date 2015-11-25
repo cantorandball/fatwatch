@@ -53,7 +53,6 @@ public class HeartRateFragment extends GenericFragment {
         TextView rateView = (TextView) getActivity().findViewById(R.id.heart_rate_now);
         rateView.setText(strRate);
 
-        Log.i("Heartthing:", "Setting texts: " + strRate + ' ' + strReadings);
         readingsView.setText(strReadings);
     }
 }
