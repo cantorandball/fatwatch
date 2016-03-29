@@ -87,7 +87,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     @Override
     protected void onResume(){
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         // Start message listening service

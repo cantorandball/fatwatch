@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.util.Date;
 
 public class HeartRateFragment extends GenericFragment {
 
+    private String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE: HEART";
     public View mView;
 
-    private int heartReadings = 0;
+    private Date lastHeartReading = new Date(0);
+    private Date timeNow = new Date();
+    private int heartRateTimeout = 60;
 
     public HeartRateFragment() {
         // Required empty public constructor
@@ -25,6 +29,7 @@ public class HeartRateFragment extends GenericFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_heart_rate, container, false);
         return mView;
@@ -44,15 +49,20 @@ public class HeartRateFragment extends GenericFragment {
     }
 
     public void updateCurrentRate(float rate){
-        heartReadings += 1;
 
-        String strRate = String.valueOf(rate);
-        String strReadings = String.valueOf(heartReadings);
-
-        TextView readingsView = (TextView) getActivity().findViewById(R.id.no_of_heart_readings);
         TextView rateView = (TextView) getActivity().findViewById(R.id.heart_rate_now);
-        rateView.setText(strRate);
 
-        readingsView.setText(strReadings);
+        // Work out seconds since last reading
+        timeNow = new Date();
+        long secondsSinceLastReading = (timeNow.getTime() - lastHeartReading.getTime())/1000;
+
+        Log.w(LOG_TAG, "seconds: " + Long.toString(secondsSinceLastReading));
+
+        if (secondsSinceLastReading >= heartRateTimeout){
+            rateView.setText("Not yet taken");
+        } else {
+            String strRate = String.valueOf(rate);
+            rateView.setText(strRate);
+        }
     }
 }
