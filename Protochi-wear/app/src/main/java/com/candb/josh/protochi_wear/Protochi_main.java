@@ -234,7 +234,6 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         if (source.equals(mAccelerometer)){
             accelSensorHandler(event, currentFragment);
         }else if (source.equals(mHeartRateSensor)){
-            Log.v(LOG_TAG, "Heart rate received!");
             heartRateSensorHandler(event, currentFragment);
         }else{
             Log.e(LOG_TAG, "Whoa. No idea what sensor that was.");
