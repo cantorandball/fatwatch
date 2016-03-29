@@ -101,7 +101,6 @@ public class EvoFragment extends GenericFragment {
             // Update progress bar
             double progress = (movementThisLevel / thresholdForStage) * 100;
             int progressInt = (int) progress;
-            Log.i(LOG_TAG, "Setting progress to " + Integer.toString(progressInt));
             mProgressBar.setProgress(progressInt);
 
         }else{

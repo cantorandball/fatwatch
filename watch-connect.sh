@@ -7,7 +7,7 @@ echo "***"
 echo "Connecting..."
 adb forward tcp:4444 localabstract:/adb-hub
 adb disconnect localhost:4444
-adb connect localhost:4444
+adb connect 127.0.0.1:4444
 
 echo "***"
 echo "Devices afterwards:"
