@@ -14,9 +14,11 @@ public class HeartRateFragment extends GenericFragment {
     private String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE: HEART";
     public View mView;
 
-    private Date lastHeartReading = new Date(0);
+    private Date lastHeartReadingTime = new Date(0);
+    private float lastHeartReadingValue = 0;
+
     private Date timeNow = new Date();
-    private int heartRateTimeout = 60;
+    private int heartRateTimeout = 120000;
 
     public HeartRateFragment() {
         // Required empty public constructor
@@ -48,21 +50,29 @@ public class HeartRateFragment extends GenericFragment {
         super.onPause();
     }
 
+
+
     public void updateCurrentRate(float rate){
+
+        // If you've read a new value, update the display
+        if (rate != lastHeartReadingValue && rate > 0.0){
+            lastHeartReadingTime = new Date();
+        }
 
         TextView rateView = (TextView) getActivity().findViewById(R.id.heart_rate_now);
 
         // Work out seconds since last reading
         timeNow = new Date();
-        long secondsSinceLastReading = (timeNow.getTime() - lastHeartReading.getTime())/1000;
+        long timeSinceLastReading = timeNow.getTime() - lastHeartReadingTime.getTime();
 
-        Log.w(LOG_TAG, "seconds: " + Long.toString(secondsSinceLastReading));
+        Log.w(LOG_TAG, "seconds: " + Long.toString(timeSinceLastReading));
 
-        if (secondsSinceLastReading >= heartRateTimeout){
-            rateView.setText("Not yet taken");
+        if (timeSinceLastReading >= heartRateTimeout){
+            rateView.setText(R.string.heart_rate_init_value);
         } else {
             String strRate = String.valueOf(rate);
             rateView.setText(strRate);
         }
+        lastHeartReadingValue = rate;
     }
 }
