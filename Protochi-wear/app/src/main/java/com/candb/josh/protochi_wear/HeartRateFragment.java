@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.Date;
 
@@ -20,6 +22,9 @@ public class HeartRateFragment extends GenericFragment {
     private Date timeNow = new Date();
     private int heartRateTimeout = 120000;
 
+    //Callback for reading heart rate
+    private FragmentCallback activityCallback;
+
     public HeartRateFragment() {
         // Required empty public constructor
     }
@@ -32,10 +37,23 @@ public class HeartRateFragment extends GenericFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_heart_rate, container, false);
+
+
+        ImageButton refreshButton = (ImageButton) mView.findViewById(R.id.heart_rate_reread);
+
+        refreshButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                activityCallback.readHeartRate();
+            }
+        });
+
         return mView;
     }
+
 
     // Set up context menu
     public void onResume(){
@@ -52,6 +70,7 @@ public class HeartRateFragment extends GenericFragment {
 
 
 
+    // For refresh button
     public void updateCurrentRate(float rate){
 
         // If you've read a new value, update the display

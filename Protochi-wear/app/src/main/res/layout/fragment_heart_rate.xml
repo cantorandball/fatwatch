@@ -27,5 +27,13 @@
                 android:textSize="40sp"
                 android:text="@string/heart_rate_init_value"/>
         </TableRow>
+        <TableRow>
+            <ImageButton
+                android:id="@+id/heart_rate_reread"
+                android:background="@drawable/ic_autorenew_24dp_white"
+                android:layout_height="100pt"
+                android:contentDescription="@string/refresh_button_description"
+                android:layout_width="24pt" />
+        </TableRow>
     </TableLayout>
 </LinearLayout>

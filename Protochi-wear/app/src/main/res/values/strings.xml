@@ -15,7 +15,7 @@
     <!-- Heartrate -->
     <string name="heart_rate_title">Your heart rate</string>
     <string name="heart_rate_init_value">Reading…</string>
-
+    <string name="refresh_button_description">Refresh Button</string>
 
     <!-- Main menu -->
     <string name="main_menu_reset">Reset all data</string>
