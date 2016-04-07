@@ -14,7 +14,8 @@
 
     <!-- Heartrate -->
     <string name="heart_rate_title">Your heart rate</string>
-    <string name="heart_rate_init_value">Reading…</string>
+    <string name="heart_rate_in_progress">Reading…</string>
+    <string name="heart_rate_failed">Not readable</string>
     <string name="refresh_button_description">Refresh Button</string>
 
     <!-- Main menu -->

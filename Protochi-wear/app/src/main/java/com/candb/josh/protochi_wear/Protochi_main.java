@@ -24,6 +24,7 @@ import android.view.WindowManager;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Date;
 
 public class Protochi_main extends FragmentActivity implements SensorEventListener,
         GenericFragment.FragmentCallback {
@@ -33,6 +34,12 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private Sensor mAccelerometer;
     public Sensor mHeartRateSensor;
 
+    //Heart rate calculations
+    private int heartRateDisplayTimeout = 120000; //How long to display a value after it's read
+    private int heartRateFailureTimeout = 240000; //How long to claim 'Reading...' until failed.
+    private Date lastHeartReadingTime = new Date();
+    private float lastHeartReadingValue = 0;
+
     // Set up Google Fit implementation
     private GoogleFitConnector mGoogleFitConnector;
 
@@ -40,7 +47,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
 
-    // For counting
+    // For indicator
     private float mLastX;
     private float mLastY;
     private float mLastZ;
@@ -268,14 +275,42 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
         }
     }
 
-    public void heartRateSensorHandler(SensorEvent event, Fragment currentFragment) {
-        float rate = event.values[0];
+    private void displayHeartRate(String toDisplay, Fragment currentFragment) {
         if (currentFragment != null) {
             if (currentFragment instanceof HeartRateFragment){
                 HeartRateFragment heartRateFragment = (HeartRateFragment) currentFragment;
-                heartRateFragment.updateCurrentRate(rate);
+                heartRateFragment.displayCurrentRate(toDisplay);
             }
         }
+    }
 
+    public void heartRateSensorHandler(SensorEvent event, Fragment currentFragment) {
+
+        float rate = event.values[0];
+        Date timeNow = new Date();
+
+        // If you've read a new value, update the display
+        if (rate != lastHeartReadingValue && rate > 0.0){
+            lastHeartReadingTime = timeNow;
+        }
+
+        // Work out time since last reading
+        long timeSinceLastReading = timeNow.getTime() - lastHeartReadingTime.getTime();
+        Log.w(LOG_TAG, "time: " + Long.toString(timeSinceLastReading / 1000));
+
+        if (timeSinceLastReading < heartRateFailureTimeout){
+            if (timeSinceLastReading >= heartRateDisplayTimeout || rate == 0.0){
+                // Still rereading, so display 'in progress' text if we're on the heart rate screen.
+                displayHeartRate(getString(R.string.heart_rate_in_progress), currentFragment);
+            } else {
+                // We've got a rate, and haven't reached the display timeout, so display it!
+                String strRate = String.valueOf(rate);
+                displayHeartRate(strRate, currentFragment);
+            }
+        } else {
+            // The monitor has failed to read. Display failure message.
+            displayHeartRate(getString(R.string.heart_rate_failed), currentFragment);
+        }
+        lastHeartReadingValue = rate;
     }
 }
