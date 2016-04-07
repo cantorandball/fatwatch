@@ -36,7 +36,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
     //Heart rate calculations
     private int heartRateDisplayTimeout = 120000; //How long to display a value after it's read
-    private int heartRateFailureTimeout = 240000; //How long to claim 'Reading...' until failed.
+    private int heartRateFailureTimeout = 180000; //How long to claim 'Reading...' until failed.
     private Date lastHeartReadingTime = new Date();
     private float lastHeartReadingValue = 0;
 
@@ -132,6 +132,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     public void readHeartRate(){
         mSensorManager.unregisterListener(this, mHeartRateSensor);
         mSensorManager.registerListener(this, mHeartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        lastHeartReadingTime = new Date();
     }
 
     public void resetMovement(){
