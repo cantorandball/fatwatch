@@ -22,9 +22,6 @@ public class HeartRateFragment extends GenericFragment {
     private Date timeNow = new Date();
     private int heartRateTimeout = 120000;
 
-    //Callback for reading heart rate
-    private FragmentCallback activityCallback;
-
     public HeartRateFragment() {
         // Required empty public constructor
     }
@@ -37,6 +34,7 @@ public class HeartRateFragment extends GenericFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Callback for reading heart rate
 
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_heart_rate, container, false);

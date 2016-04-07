@@ -29,20 +29,18 @@ public class GenericFragment extends Fragment {
         void resetMovement();
     }
 
-    private FragmentCallback activityCallback;
+    public FragmentCallback activityCallback;
 
     public void onAttach(Activity activity){
         activityCallback = (FragmentCallback) activity;
         super.onAttach(activity);
     }
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
     }
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
@@ -80,5 +78,4 @@ public class GenericFragment extends Fragment {
         }
         return sum / currentSize;
     }
-
 }

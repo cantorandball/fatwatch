@@ -36,7 +36,7 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     // Set up Google Fit implementation
     private GoogleFitConnector mGoogleFitConnector;
 
-    private final float NOISE = (float) 20.0;
+    private final float NOISE = (float) 10.0;
     private ViewPager mainPager;
     public String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE";
 
@@ -270,7 +270,6 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
 
     public void heartRateSensorHandler(SensorEvent event, Fragment currentFragment) {
         float rate = event.values[0];
-        Log.i(LOG_TAG, Arrays.toString(event.values));
         if (currentFragment != null) {
             if (currentFragment instanceof HeartRateFragment){
                 HeartRateFragment heartRateFragment = (HeartRateFragment) currentFragment;
