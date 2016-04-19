@@ -35,3 +35,8 @@ To check:
    localhost:4444	device
 
  - If you don't see 'connected to localhost:4444' then disconnect, reconnect, and try accepting debugging again. 
+
+### OTHER THINGS
+
+## Running tests
+Tests are set up to run using JUnit in Android Studio. There's a brilliant guide to setting these up and running them here: http://tools.android.com/tech-docs/unit-testing-support
