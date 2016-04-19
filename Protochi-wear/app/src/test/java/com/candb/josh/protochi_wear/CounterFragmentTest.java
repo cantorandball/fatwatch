@@ -9,7 +9,6 @@ public class CounterFragmentTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-
     }
 
     public void tearDown() throws Exception {
@@ -17,7 +16,6 @@ public class CounterFragmentTest extends TestCase {
     }
 
     public void testNewInstance() throws Exception {
-        assertEquals(true,true);
     }
 
     public void testOnCreateView() throws Exception {
@@ -33,7 +31,6 @@ public class CounterFragmentTest extends TestCase {
     }
 
     public void testResetValues() throws Exception {
-
     }
 
     public void testTwoDecimalPlaces() throws Exception {
@@ -41,10 +38,15 @@ public class CounterFragmentTest extends TestCase {
     }
 
     public void testGetHighestAccel() throws Exception {
-
     }
 
     public void testDisplayValues() throws Exception {
 
     }
+
+    public void testAccelInitialisedAtZero() throws Exception {
+        CounterFragment testCounter = new CounterFragment();
+        assertEquals(testCounter.currentMaxAccel, 0.0);
+    }
+
 }
