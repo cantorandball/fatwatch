@@ -38,6 +38,18 @@ public class CounterFragmentTest extends TestCase {
     }
 
     public void testGetHighestAccel() throws Exception {
+        CounterFragment testCounter = new CounterFragment();
+        testCounter.currentMaxAccel = 65.8;
+        // Set the accel above that and check it's changed
+        testCounter.getHighestAccel(89.0);
+        assertEquals(testCounter.currentMaxAccel, 89.0);
+        //And check a lower value doesn't change it
+        testCounter.getHighestAccel(0.0);
+        assertEquals(testCounter.currentMaxAccel, 89.0);
+        testCounter.getHighestAccel(7.8);
+        assertEquals(testCounter.currentMaxAccel, 89.0);
+        testCounter.getHighestAccel(-90.0);
+        assertEquals(testCounter.currentMaxAccel, 89.0);
     }
 
     public void testDisplayValues() throws Exception {
