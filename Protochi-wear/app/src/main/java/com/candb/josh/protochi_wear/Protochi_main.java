@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 
 import android.util.SparseArray;
 import android.view.WindowManager;
+import android.view.animation.RotateAnimation;
 
 import java.util.List;
 import java.util.Arrays;
@@ -40,6 +41,8 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private Date lastHeartReadingTime = new Date();
     private float lastHeartReadingValue = 0;
 
+
+
     // Set up Google Fit implementation
     private GoogleFitConnector mGoogleFitConnector;
 
@@ -53,6 +56,9 @@ public class Protochi_main extends FragmentActivity implements SensorEventListen
     private float mLastZ;
     private boolean mInitialised = false;
     private double movement = 0;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

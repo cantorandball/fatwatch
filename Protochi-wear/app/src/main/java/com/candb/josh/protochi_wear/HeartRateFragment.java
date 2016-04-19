@@ -6,16 +6,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class HeartRateFragment extends GenericFragment {
 
-    private String LOG_TAG = "PROTOCHI_MESSAGING_SERVICE: HEART";
     public View mView;
 
-
+    // Set up heart rate refresh button animation
+    RotateAnimation spinRefresh = new RotateAnimation(0,360,12,12);
 
     public HeartRateFragment() {
         // Required empty public constructor
@@ -62,7 +62,23 @@ public class HeartRateFragment extends GenericFragment {
     }
 
     public void displayCurrentRate(String rate){
+
         TextView rateView = (TextView) getActivity().findViewById(R.id.heart_rate_now);
+        ImageButton refreshArrows = (ImageButton) getActivity().findViewById(R.id.heart_rate_reread);
+
         rateView.setText(rate);
+
+        if (rate == getText(R.string.heart_rate_in_progress)){
+            if ( !spinRefresh.hasStarted() ){
+                Log.i("Willies: ", "Starting animation");
+                refreshArrows.startAnimation(spinRefresh);
+            }
+
+        } else {
+            if ( spinRefresh.hasStarted() ){
+                Log.i("Willies: ", "Stopping animation");
+                refreshArrows.setAnimation(null);
+            }
+        }
     }
 }
